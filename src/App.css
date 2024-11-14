@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -38,23 +39,8 @@
 }
 
 .centered-authenticator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  flex-direction: column;
+  margin-top: 10vh;
 }
 
-/* Login Background */
-.login-background {
-  background-size: cover;
-  background-position: center;
-  height: 100vh; /* Full height for the login screen */
-}
 
-/* White Background after login */
-.white-background {
-  background-color: white;
-  height: 100vh; /* Full height for the main content */
-}
 

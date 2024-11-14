@@ -6,7 +6,6 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { Auth } from 'aws-amplify';
 import Layout from './components/layout/Layout'; // Import the Layout component
-import loginBackground from './homepg-bgjpg.jpg'; //Import the image
  
 Amplify.configure({
   Auth: {
@@ -18,8 +17,6 @@ Amplify.configure({
 
 function App() {
   const [jwtToken, setJwtToken] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-
   useEffect(() => {
     fetchJwtToken();
   }, []);
@@ -29,18 +26,12 @@ function App() {
       const session = await Auth.currentSession();
       const token = session.getIdToken().getJwtToken();
       setJwtToken(token);
-      setIsLoggedIn(true); // Set the state to logged in
     } catch (error) {
       console.log('Error fetching JWT token:', error);
-      setIsLoggedIn(false); // If no token, user is not logged in
     }
   };
 
   return (
-    <div
-      className={isLoggedIn ? 'white-background' : 'login-background'}
-      style={{ backgroundImage: `url(${isLoggedIn ? '' : loginBackground})` }} // Dynamically set the background image
-    >
     <Layout>
       <div className="centered-authenticator">
         <Authenticator
@@ -104,8 +95,7 @@ function App() {
           )}
         </Authenticator>
       </div>
-    </Layout>
-  </div>)
+    </Layout>)
 }
 
 export default App;
