@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  template for creating the Cognito User Pool
+  Questions and answers project
 Transform:
 - AWS::Serverless-2016-10-31
 
@@ -11,13 +11,13 @@ Parameters:
 
   S3BucketName:
     Type: String
-    Default: majestic-static-site
+    Default: questions-answers
   CognitoUserPoolName:
     Type: String
-    Default: majestic-userpool
+    Default: questions-answers
   CognitoWebClientName:
     Type: String
-    Default: majestic-webclient
+    Default: qa-webclient
 
 Resources:
 
