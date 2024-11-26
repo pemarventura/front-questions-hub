@@ -8,15 +8,17 @@ import { Auth } from 'aws-amplify';
 import Layout from './components/layout/Layout'; // Import the Layout component
 import CustomAuthenticator from './CustomAuthenticator'; // Import the CustomAuthenticator component
 
-Amplify.configure({
-  Auth: {
-    region: awsExports.REGION,
-    userPoolId: awsExports.USER_POOL_ID,
-    userPoolWebClientId: awsExports.USER_POOL_APP_CLIENT_ID,
-    authenticationFlowType: 'USER_PASSWORD_AUTH', // This sets the authentication flow to use password authentication.
-    usernameAttributes: 'email', // Use email as the unique identifier
-  },
-});
+// Amplify.configure({
+//   Auth: {
+//     region: awsExports.REGION,
+//     userPoolId: awsExports.USER_POOL_ID,
+//     userPoolWebClientId: awsExports.USER_POOL_APP_CLIENT_ID,
+//     authenticationFlowType: 'USER_PASSWORD_AUTH', // This sets the authentication flow to use password authentication.
+//     usernameAttributes: 'email', // Use email as the unique identifier
+//   },
+// });
+
+
 
 function App() {
   const [jwtToken, setJwtToken] = useState('');
@@ -36,11 +38,7 @@ function App() {
 
   return (
     <Layout>
-      <div className="centered-authenticator">
-        <div>
           <CustomAuthenticator />
-        </div>
-      </div>
     </Layout>)
 }
 
