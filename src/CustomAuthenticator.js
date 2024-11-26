@@ -64,15 +64,15 @@ const CustomAuthenticator = () => {
     <div style={{ 
       position: 'relative',
       minHeight: 'calc(100vh - 150px)',
-      marginTop: '200px',
+      marginTop: '150px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',
-      overflow: 'visible', // Changed from hidden to allow content growth
+      overflow: 'visible',
       zIndex: 1,
-      padding: '20px 0', // Add padding to prevent content touching edges
+      padding: '20px 0',
       width: '100%',
-      maxWidth: '100vw' // Prevent horizontal overflow
+      maxWidth: '100vw'
     }}>
       <div style={{ 
         backgroundImage: `url(${process.env.PUBLIC_URL + './homepg-bgjpg.jpg'})`, 
@@ -88,6 +88,13 @@ const CustomAuthenticator = () => {
         zIndex: -1,
       }}></div>
       <Authenticator
+        style={{
+          marginTop: '20px',
+          position: 'relative',
+          zIndex: 2,
+          width: '100%',
+          maxWidth: '460px'
+        }}
         components={{
           SignUp: {
             FormFields() {

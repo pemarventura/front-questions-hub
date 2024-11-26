@@ -1,0 +1,53 @@
+/* src/MainApp.css */
+.main-app-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    background: white;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .main-app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .sign-out-button {
+    padding: 10px 20px;
+    background-color: #A5161A;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .sign-out-button:hover {
+    background-color: #8b1216;
+  }
+  
+  .main-app-content {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .token-container {
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    word-break: break-all;
+    font-family: monospace;
+    margin-top: 10px;
+  }
