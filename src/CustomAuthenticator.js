@@ -4,7 +4,6 @@ import { Auth, I18n, Amplify } from 'aws-amplify';
 import MainApp from './MainApp';
 import { awsExports } from './aws-exports';
 
-
 Amplify.configure({
   Auth: {
     region: awsExports.REGION,
@@ -65,7 +64,7 @@ const CustomAuthenticator = () => {
     <div style={{ 
       position: 'relative',
       minHeight: 'calc(100vh - 150px)',
-      marginTop: '150px',
+      marginTop: '200px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',

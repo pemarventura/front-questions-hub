@@ -38,7 +38,7 @@ function App() {
 
   return (
     <Layout>
-          <CustomAuthenticator />
+        <CustomAuthenticator/>
     </Layout>)
 }
 

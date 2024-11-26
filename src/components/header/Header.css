@@ -77,64 +77,50 @@ header nav ul li a:hover {
   gap: 8px;
 }
 
-/* Add responsive behavior with media queries */
 @media (max-width: 768px) {
-  .header {
-    position: relative;
-  }
-
-  /* Stack the header elements vertically on smaller screens */
   .header .nav-box {
-    padding: 10px;
-    flex-direction: column;
-    align-items: center;
+    padding: 8px;
   }
 
-  /* Stack the icons and nav-right vertically */
   header nav {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
 
+  /* Keep icons horizontal */
   header nav ul {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 15px;
   }
 
   .nav-right {
-    flex-direction: column;
-    align-items: center;
     margin-left: 0;
+    justify-content: center;
   }
 
-  /* Reduce size of icons and logo for smaller screens */
-  header nav ul li a,
-  .nav-right li a {
-    transform: scale(0.9);
-  }
-
-  header nav ul li a:hover {
-    transform: scale(1);
-  }
-
-  a img {
-    width: 200px; /* Reduce logo size */
+  /* Phone number specific styling */
+  .nav-right li:last-child {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
   }
 }
 
-/* Additional media query for very small screens */
 @media (max-width: 480px) {
   header nav ul {
-    flex-direction: column;
-    gap: 5px;
+    gap: 12px;
   }
 
-  .nav-right li {
-    font-size: 0.9rem; /* Reduce text size */
+  header nav ul li a svg {
+    width: 20px;
+    height: 20px;
   }
 
-  a img {
-    width: 150px; /* Further reduce logo size */
+  .nav-right li:last-child {
+    font-size: 12px;
   }
 }
