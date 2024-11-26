@@ -64,10 +64,16 @@ const CustomAuthenticator = () => {
   return (
     <div style={{ 
       position: 'relative',
-      minHeight: '100vh',
+      minHeight: 'calc(100vh - 150px)',
+      marginTop: '150px',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'flex-start',
+      overflow: 'visible', // Changed from hidden to allow content growth
+      zIndex: 1,
+      padding: '20px 0', // Add padding to prevent content touching edges
+      width: '100%',
+      maxWidth: '100vw' // Prevent horizontal overflow
     }}>
       <div style={{ 
         backgroundImage: `url(${process.env.PUBLIC_URL + './homepg-bgjpg.jpg'})`, 
@@ -75,12 +81,12 @@ const CustomAuthenticator = () => {
         backgroundPosition: 'center', 
         filter: 'blur(5px)', 
         opacity: 0.5, 
-        position: 'absolute', 
-        top: 0, 
+        position: 'fixed', // Changed to fixed
+        top: '150px', // Match container marginTop
         left: 0, 
-        width: '100%', 
-        height: '100%', 
-        zIndex: -1 
+        width: '100%',
+        height: 'calc(100vh - 150px)', // Match container height
+        zIndex: -1,
       }}></div>
       <Authenticator
         components={{
@@ -116,24 +122,7 @@ const CustomAuthenticator = () => {
                 </>
               );
             },
-          },
-          ConfirmSignUp: {
-            FormFields() {
-              return (
-                <>
-                  <div className="amplify-field-group">
-                    <label className="amplify-label" htmlFor="confirmationCode" style={{ marginBottom: '16px' }}>Código de confirmação</label>
-                    <div className="amplify-flex amplify-field-group amplify-field-group--horizontal" data-orientation="horizontal" style={{ marginTop: '7px' }}>
-                      <div className="amplify-field-group__field-wrapper amplify-field-group__field-wrapper--horizontal" data-orientation="horizontal">
-                        <input className="amplify-input amplify-field-group__control" name="confirmationCode" placeholder="Digite seu código" required style={{ borderRadius: '7px' }} />
-                      </div>
-                    </div>
-                  </div>
-                  <Authenticator.ConfirmSignUp.FormFields />
-                </>
-              );
-            },
-          },
+          }
         }}
       >
         {({ signOut, user }) => (

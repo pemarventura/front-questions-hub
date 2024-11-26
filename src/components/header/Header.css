@@ -1,63 +1,140 @@
-/* src/components/Header/Header.css */
+/* General styles for the header */
 .header {
-    /* background-color: #4CAF50; */
-    color: white;
-    /* padding: 20px; */
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-.header .nav-box {
-    background-color: #A5161A;
-    width: 100%;
-    padding: 5px;
-    /* box-sizing: border-box; Ensures padding is included in width */
-    text-align: center;
-    display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: white;
 }
 
+/* Styling for the navigation container */
+.header .nav-box {
+  background-color: #A5161A;
+  width: 100%;
+  padding: 10px 20px;
+  text-align: center;
+  display: flex;
+  position: relative;
+  z-index: 1001;
+}
+
+/* Styling for the navigation bar */
 header nav {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Ensure items wrap if necessary */
 }
 
+/* Styling for the left-side navigation (icons) */
 header nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-
-
-header .nav-right {
-  justify-content: flex-end;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Add consistent spacing between items */
 }
 
+/* Specific styling for the list items */
 header nav ul li {
-  margin: 0 10px;
-  display: inline-flex; /* Allows the <li> to wrap tightly around its content */
-  align-items: center; /* Centers icon and text within <li> */
-  }
-  
-header nav ul li a {
-    display: flex;
-    align-items: center;
-  }
-  
-
-header span {
   display: flex;
   align-items: center;
 }
 
-/* .logo-box {
-    background-image: url('/bg.png');
-} */
+/* Styling for links inside list items */
+header nav ul li a {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  transition: transform 0.2s ease;
+}
 
+/* Hover effect for links */
+header nav ul li a:hover {
+  transform: scale(1.1);
+}
 
+/* Align the right-side navigation to the right */
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
+/* Phone number specific styling */
+.nav-right li:last-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+/* Add responsive behavior with media queries */
+@media (max-width: 768px) {
+  .header {
+    position: relative;
+  }
+
+  /* Stack the header elements vertically on smaller screens */
+  .header .nav-box {
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Stack the icons and nav-right vertically */
+  header nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  header nav ul {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+  }
+
+  /* Reduce size of icons and logo for smaller screens */
+  header nav ul li a,
+  .nav-right li a {
+    transform: scale(0.9);
+  }
+
+  header nav ul li a:hover {
+    transform: scale(1);
+  }
+
+  a img {
+    width: 200px; /* Reduce logo size */
+  }
+}
+
+/* Additional media query for very small screens */
+@media (max-width: 480px) {
+  header nav ul {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .nav-right li {
+    font-size: 0.9rem; /* Reduce text size */
+  }
+
+  a img {
+    width: 150px; /* Further reduce logo size */
+  }
+}
