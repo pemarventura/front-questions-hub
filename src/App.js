@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Amplify, Auth, Hub } from 'aws-amplify';
@@ -7,12 +6,13 @@ import '@aws-amplify/ui-react/styles.css';
 import Layout from './components/layout/Layout';
 import CustomAuthenticator from './CustomAuthenticator';
 import MainApp from './MainApp';
+import { UserProvider, useUser } from './context/UserContext';
 
 function App() {
   const [jwtToken, setJwtToken] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { setCurrentUser } = useUser();
 
   useEffect(() => {
     checkAuthState();
@@ -25,7 +25,7 @@ function App() {
           break;
         case 'signOut':
           setIsAuthenticated(false);
-          setUser(null);
+          setCurrentUser(null);
           setJwtToken('');
           break;
         default:
@@ -39,7 +39,7 @@ function App() {
       const session = await Auth.currentSession();
       const currentUser = await Auth.currentAuthenticatedUser();
       setJwtToken(session.getIdToken().getJwtToken());
-      setUser(currentUser);
+      setCurrentUser(currentUser);
       setIsAuthenticated(true);
     } catch (error) {
       console.log('Error fetching JWT token:', error);
@@ -58,11 +58,11 @@ function App() {
   };
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return <div>Loading...</div>;
   }
 
   if (isAuthenticated) {
-    return <MainApp signOut={handleSignOut} user={user} jwtToken={jwtToken} />;
+    return <MainApp signOut={handleSignOut} jwtToken={jwtToken} />;
   }
 
   return (
@@ -72,4 +72,8 @@ function App() {
   );
 }
 
-export default App;
+export default () => (
+  <UserProvider>
+    <App />
+  </UserProvider>
+);

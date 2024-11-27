@@ -1,19 +1,21 @@
 // src/components/SubComment.js
 import React from 'react';
 import './SubComment.css';
+import { useUser } from '../../context/UserContext';
 
 const SubComment = ({ 
   subComment, 
-  currentUser, 
   onUpvote, 
   onDownvote, 
   onDelete 
 }) => {
+  const { currentUser } = useUser();
+
   return (
     <div className="sub-comment">
       <div className="comment-header">
         <span className="username">{subComment.username}</span>
-        {currentUser.id === subComment.userId && (
+        {currentUser?.id === subComment.userId && (
           <button 
             className="delete-button"
             onClick={() => onDelete(subComment.id)}

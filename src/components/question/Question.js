@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import './Question.css';
 import Answer from '../answer/Answer';
+import CommentSection from '../commentSection/CommentSection';
 
-const Question = () => {
+const Question = ({ question }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [correctAnswer, setCorrectAnswer] = useState(2); // Example correct answer index
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleAnswerClick = (index) => {
@@ -21,21 +21,22 @@ const Question = () => {
 
   return (
     <div className="question-container">
-      <h3>What is the capital of France?</h3>
+      <h3>{question.text}</h3>
       <div className="answers-container">
-        {['Berlin', 'Madrid', 'Paris', 'Rome'].map((answer, index) => (
+        {question.answers.map((answer, index) => (
           <Answer
             key={index}
             index={index}
             answer={answer}
             selectedAnswer={selectedAnswer}
-            correctAnswer={correctAnswer}
+            correctAnswer={question.correctAnswer}
             onClick={handleAnswerClick}
             isSubmitted={isSubmitted}
           />
         ))}
       </div>
       <button className="submit-button" onClick={handleSubmit}>Submit</button>
+      <CommentSection questionId={question.id} comments={question.comments} />
     </div>
   );
 };

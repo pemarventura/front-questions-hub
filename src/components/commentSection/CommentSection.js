@@ -1,39 +1,17 @@
 // src/components/CommentSection.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CommentSection.css';
 import Comment from '../comment/Comment';
 import CommentForm from '../commentForm/CommentForm';
+import { useUser } from '../../context/UserContext';
 
-const CommentSection = ({ currentUser }) => {
-  const [comments, setComments] = useState([
-    { 
-      id: 1, 
-      text: 'Great question!', 
-      upvotes: 10, 
-      downvotes: 2,
-      userId: 'user1',
-      username: 'John',
-      subComments: [
-        {
-          id: 3,
-          text: 'I agree!',
-          userId: 'user2',
-          username: 'Jane',
-          upvotes: 5,
-          downvotes: 1
-        }
-      ]
-    },
-    { 
-      id: 2, 
-      text: 'I found this confusing.', 
-      upvotes: 3, 
-      downvotes: 5,
-      userId: 'user2',
-      username: 'Jane',
-      subComments: []
-    },
-  ]);
+const CommentSection = ({ questionId, comments: initialComments }) => {
+  const { currentUser } = useUser();
+  const [comments, setComments] = useState(initialComments);
+
+  useEffect(() => {
+    setComments(initialComments);
+  }, [initialComments]);
 
   const handleUpvote = (id, isSubComment, parentId) => {
     if (isSubComment) {
@@ -121,7 +99,7 @@ const CommentSection = ({ currentUser }) => {
           <Comment
             key={comment.id}
             comment={comment}
-            currentUser={currentUser}
+            currentUser={currentUser} // Pass currentUser to Comment
             onUpvote={(id, isSubComment) => handleUpvote(id, isSubComment, comment.id)}
             onDownvote={(id, isSubComment) => handleDownvote(id, isSubComment, comment.id)}
             onDelete={(id, isSubComment) => handleDelete(id, isSubComment, comment.id)}
