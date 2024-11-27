@@ -1,0 +1,25 @@
+/* src/components/Question.css */
+.question-container {
+    margin-bottom: 20px;
+  }
+  
+  .answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .submit-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+  }

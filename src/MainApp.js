@@ -1,6 +1,8 @@
 // src/MainApp.js
 import React from 'react';
 import './MainApp.css';
+import Question from './components/question/Question';
+import CommentSection from './components/commentSection/CommentSection';
 
 const MainApp = ({ signOut, user, jwtToken }) => {
   return (
@@ -12,10 +14,8 @@ const MainApp = ({ signOut, user, jwtToken }) => {
         </button>
       </div>
       <div className="main-app-content">
-        <h4>Your JWT token:</h4>
-        <div className="token-container">
-          {jwtToken}
-        </div>
+        <Question />
+        <CommentSection />
       </div>
     </div>
   );
