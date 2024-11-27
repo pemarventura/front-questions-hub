@@ -42,6 +42,7 @@ I18n.putVocabularies({
     'It may take a minute to arrive': 'Pode demorar um minuto para chegar',
     'Your code is on the way. To log in, enter the code we emailed you to': 'Seu código está a caminho. Para fazer login, digite o código que enviamos para',
     'Your': 'Seu',
+    'Signing in': 'Entrando',
     // Add more translations here if needed
   },
 });
