@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import './Comment.css';
 import CommentForm from '../commentForm/CommentForm';
 import SubComment from '../subComment/SubComment';

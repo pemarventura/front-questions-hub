@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import { awsExports } from './aws-exports';
+import { Auth, Hub } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import Layout from './components/layout/Layout';
 import CustomAuthenticator from './CustomAuthenticator';
@@ -32,7 +31,7 @@ function App() {
           break;
       }
     });
-  }, []);
+  },);
 
   const checkAuthState = async () => {
     try {
@@ -72,8 +71,10 @@ function App() {
   );
 }
 
-export default () => (
+let binding = () => (
   <UserProvider>
     <App />
   </UserProvider>
 );
+
+export default binding;
