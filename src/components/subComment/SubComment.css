@@ -1,0 +1,12 @@
+.sub-comment {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin: 10px 0;
+    background: #f8f9fa;
+  }
+  
+  .sub-comment .comment-actions button {
+    font-size: 0.9em;
+    padding: 4px 8px;
+  }
