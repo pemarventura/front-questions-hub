@@ -22,47 +22,49 @@ Resources:
     Properties:
       CloudFrontOriginAccessIdentityConfig:
         Comment: 'Origin Access Identity'
+
+  CloudFrontOAC:
+    Type: "AWS::CloudFront::OriginAccessControl"
+    Properties:
+      OriginAccessControlConfig:
+        Name: "MyOAC"
+        Description: "OAC for CloudFront to access S3"
+        SigningBehavior: always
+        OriginAccessControlOriginType: s3
+        SigningProtocol: sigv4
+
   CloudfrontDistribution:
     Type: "AWS::CloudFront::Distribution"
     Properties:
       DistributionConfig:
-        Comment: "Cloudfront distribution for the static website"
-        DefaultRootObject: "index.html"
-        Enabled: true
-        HttpVersion: http2
         Origins:
           - Id: s3-website
             DomainName: !GetAtt S3Bucket.DomainName
             S3OriginConfig:
-              OriginAccessIdentity: 
-                Fn::Sub: 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
+              OriginAccessControlId: !Ref CloudFrontOAC
         DefaultCacheBehavior:
-          Compress: 'true'
-          AllowedMethods:
-            - GET
-            - HEAD
-            - OPTIONS
-          ForwardedValues:
-            QueryString: false
-          TargetOriginId: s3-website
           ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "${Env}-${S3BucketName}"
+
   S3BucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref S3Bucket
       PolicyDocument:
         Statement:
-          -
-            Effect: Allow
-            Action: 's3:GetObject'
-            Resource:
-              - !Sub "arn:aws:s3:::${Env}-${S3BucketName}/*"
-            Principal:
-              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}"
+          - Effect: Allow
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${Env}-${S3BucketName}/*"
+            Principal: "*"
+            Condition:
+              StringEquals:
+                "aws:UserAgent": "Amazon CloudFront"
+
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
