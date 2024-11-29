@@ -23,15 +23,15 @@ Resources:
       CloudFrontOriginAccessIdentityConfig:
         Comment: 'Origin Access Identity'
 
-  CloudFrontOAC:
-    Type: "AWS::CloudFront::OriginAccessControl"
-    Properties:
-      OriginAccessControlConfig:
-        Name: "MyOAC"
-        Description: "OAC for CloudFront to access S3"
-        SigningBehavior: always
-        OriginAccessControlOriginType: s3
-        SigningProtocol: sigv4
+ CloudFrontOAC:
+  Type: "AWS::CloudFront::OriginAccessControl"
+  Properties:
+    OriginAccessControlConfig:
+      Name: "dev-questions-answer.s3.sa-east-1.amazonaws.com"
+      Description: "OAC for CloudFront to access S3"
+      SigningBehavior: always
+      OriginAccessControlOriginType: s3
+      SigningProtocol: sigv4
 
   CloudfrontDistribution:
     Type: "AWS::CloudFront::Distribution"
