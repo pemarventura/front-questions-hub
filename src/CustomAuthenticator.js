@@ -1,65 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { Authenticator } from '@aws-amplify/ui-react';
-import { Auth, I18n, Amplify } from 'aws-amplify';
+import { Auth, Amplify } from 'aws-amplify';
 import MainApp from './MainApp';
 import { awsExports } from './aws-exports';
+import { useUser } from './context/UserContext';
 
 Amplify.configure({
   Auth: {
     region: awsExports.REGION,
     userPoolId: awsExports.USER_POOL_ID,
     userPoolWebClientId: awsExports.USER_POOL_APP_CLIENT_ID,
-    // authenticationFlowType: 'USER_PASSWORD_AUTH', // This sets the authentication flow to use password authentication.
   },
 });
-
-
-I18n.putVocabularies({
-  'pt': {
-    'Sign In': 'Entrar',
-    'Sign Up': 'Cadastrar',
-    'Email': 'Email',
-    'Enter your Email': 'Digite seu email',
-    'Password': 'Senha',
-    'Enter your username': 'Digite seu nome de usuário',
-    'Enter your password': 'Digite sua senha',
-    'Sign in': 'Entrar',
-    'Forgot your password?': 'Esqueceu sua senha?',
-    'Reset password': 'Redefinir senha',
-    'Name': 'Nome',
-    'Family Name': 'Sobrenome',
-    'Confirm Password': 'Confirmar Senha',
-    'Username': 'Nome de usuário',
-    'Create Account': 'Criar conta',
-    'Enter your Username': 'Digite seu nome de usuário',
-    'Enter your Password': 'Digite sua senha',
-    'Please confirm your Password': 'Por favor, confirme sua senha',
-    'We Emailed You': 'Enviamos um email para você',
-    'Confirmation Code': 'Código de confirmação',
-    'Enter your code': 'Digite seu código',
-    'Confirm': 'Confirmar',
-    'Resend Code': 'Reenviar código',
-    'It may take a minute to arrive': 'Pode demorar um minuto para chegar',
-    'Your code is on the way. To log in, enter the code we emailed you to': 'Seu código está a caminho. Para fazer login, digite o código que enviamos para',
-    'Your': 'Seu',
-    'Signing in': 'Entrando',
-    // Add more translations here if needed
-  },
-});
-
-I18n.setLanguage('pt');
-
-// I18n.get("Sign In");
-
 
 const CustomAuthenticator = () => {
   const [jwtToken, setJwtToken] = useState('');
+  const { setCurrentUser } = useUser();
 
   useEffect(() => {
-    Auth.currentSession()
-      .then(data => setJwtToken(data.getIdToken().getJwtToken()))
-      .catch(err => console.log(err));
-  }, []);
+    const checkUser = async () => {
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        setCurrentUser(user);
+        const session = await Auth.currentSession();
+        setJwtToken(session.getIdToken().getJwtToken());
+      } catch (err) {
+        console.log('No authenticated user');
+      }
+    };
+    checkUser();
+  }, [setCurrentUser]);
+
+  const handleAuthStateChange = async (state) => {
+    if (state === 'signedIn') {
+      const user = await Auth.currentAuthenticatedUser();
+      setCurrentUser(user);
+      const session = await Auth.currentSession();
+      setJwtToken(session.getIdToken().getJwtToken());
+    }
+  };
 
   return (
     <div style={{ 
@@ -81,11 +60,11 @@ const CustomAuthenticator = () => {
         backgroundPosition: 'center', 
         filter: 'blur(5px)', 
         opacity: 0.5, 
-        position: 'fixed', // Changed to fixed
-        top: '150px', // Match container marginTop
+        position: 'fixed',
+        top: '150px',
         left: 0, 
         width: '100%',
-        height: 'calc(100vh - 150px)', // Match container height
+        height: 'calc(100vh - 150px)',
         zIndex: -1,
       }}></div>
       <Authenticator
@@ -131,6 +110,7 @@ const CustomAuthenticator = () => {
             },
           }
         }}
+        onStateChange={handleAuthStateChange}
       >
         {({ signOut, user }) => (
           <MainApp signOut={signOut} user={user} jwtToken={jwtToken} />
