@@ -4,11 +4,17 @@ import Question from './components/question/Question';
 import NavigationButtons from './components/navigationButton/NavigationButton';
 import { useUser } from './context/UserContext';
 
-const MainApp = ({ signOut, jwtToken }) => {
-  const { currentUser } = useUser();
+const MainApp = ({ signOut, user, jwtToken }) => {
+  const { currentUser, setCurrentUser } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const questionRef = useRef(null);
   const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    if (user && !currentUser) {
+      setCurrentUser(user);
+    }
+  }, [user, currentUser, setCurrentUser]);
 
   const questions = [
     {
@@ -94,23 +100,26 @@ const MainApp = ({ signOut, jwtToken }) => {
     }
   }, [currentQuestionIndex, isNavigating]);
 
+  if (!currentUser) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="main-app-container">
       <div className="main-app-header">
-        <h2>Welcome, {currentUser.username}!</h2>
+        <h2>Welcome, {currentUser.attributes.email}!</h2>
         <button className="sign-out-button" onClick={signOut}>
           Sign out
         </button>
       </div>
-      <div className="scroll-reference" ref={questionRef}>
-      <NavigationButtons 
+      <NavigationButtons
         className="top-nav"
         onPrevious={handlePreviousQuestion}
         onNext={handleNextQuestion}
         isFirst={currentQuestionIndex === 0}
         isLast={currentQuestionIndex === questions.length - 1}
       />
-      <div className="main-app-content">
+      <div className="main-app-content" ref={questionRef}>
         <Question question={questions[currentQuestionIndex]} />
       </div>
       <NavigationButtons
@@ -120,8 +129,6 @@ const MainApp = ({ signOut, jwtToken }) => {
         isFirst={currentQuestionIndex === 0}
         isLast={currentQuestionIndex === questions.length - 1}
       />
-      </div>
-      
     </div>
   );
 };
