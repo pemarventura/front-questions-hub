@@ -4,11 +4,18 @@ import Question from './components/question/Question';
 import NavigationButtons from './components/navigationButton/NavigationButton';
 import { useUser } from './context/UserContext';
 
-const MainApp = ({ signOut, jwtToken }) => {
-  const { currentUser } = useUser();
+const MainApp = ({ signOut, user, jwtToken }) => {
+  const { currentUser, setCurrentUser } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [resetSubmit, setResetSubmit] = useState(false);
   const questionRef = useRef(null);
   const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    if (user && !currentUser) {
+      setCurrentUser(user);
+    }
+  }, [user, currentUser, setCurrentUser]);
 
   const questions = [
     {
@@ -67,6 +74,7 @@ const MainApp = ({ signOut, jwtToken }) => {
 
   const handleNextQuestion = () => {
     setIsNavigating(true);
+    setResetSubmit(true);
     setCurrentQuestionIndex((prevIndex) => 
       prevIndex < questions.length - 1 ? prevIndex + 1 : prevIndex
     );
@@ -74,6 +82,7 @@ const MainApp = ({ signOut, jwtToken }) => {
 
   const handlePreviousQuestion = () => {
     setIsNavigating(true);
+    setResetSubmit(true);
     setCurrentQuestionIndex((prevIndex) => 
       prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
@@ -88,30 +97,34 @@ const MainApp = ({ signOut, jwtToken }) => {
           block: 'start'
         });
         setIsNavigating(false);
+        setResetSubmit(false);
       }, 100); // Adjust delay as needed
 
       return () => clearTimeout(timer); // Cleanup timer on unmount
     }
   }, [currentQuestionIndex, isNavigating]);
 
+  if (!currentUser) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="main-app-container">
       <div className="main-app-header">
-        <h2>Welcome, {currentUser.username}!</h2>
+        <h2>Welcome, {currentUser.attributes.email}!</h2>
         <button className="sign-out-button" onClick={signOut}>
           Sign out
         </button>
       </div>
-      <div className="scroll-reference" ref={questionRef}>
-      <NavigationButtons 
+      <NavigationButtons
         className="top-nav"
         onPrevious={handlePreviousQuestion}
         onNext={handleNextQuestion}
         isFirst={currentQuestionIndex === 0}
         isLast={currentQuestionIndex === questions.length - 1}
       />
-      <div className="main-app-content">
-        <Question question={questions[currentQuestionIndex]} />
+      <div className="main-app-content" ref={questionRef}>
+        <Question question={questions[currentQuestionIndex]} resetSubmit={resetSubmit} />
       </div>
       <NavigationButtons
         className="bottom-nav"
@@ -120,8 +133,6 @@ const MainApp = ({ signOut, jwtToken }) => {
         isFirst={currentQuestionIndex === 0}
         isLast={currentQuestionIndex === questions.length - 1}
       />
-      </div>
-      
     </div>
   );
 };

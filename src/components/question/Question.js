@@ -1,12 +1,18 @@
-// src/components/Question.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Question.css';
 import Answer from '../answer/Answer';
 import CommentSection from '../commentSection/CommentSection';
 
-const Question = ({ question }) => {
+const Question = ({ question, resetSubmit }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (resetSubmit) {
+      setIsSubmitted(false);
+      setSelectedAnswer(null);
+    }
+  }, [resetSubmit]);
 
   const handleAnswerClick = (index) => {
     if (isSubmitted) {
