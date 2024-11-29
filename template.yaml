@@ -34,6 +34,7 @@ Resources:
       SigningProtocol: sigv4
 
   CloudfrontDistribution:
+  
     Type: "AWS::CloudFront::Distribution"
     Properties:
       DistributionConfig:
