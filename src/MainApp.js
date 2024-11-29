@@ -7,6 +7,7 @@ import { useUser } from './context/UserContext';
 const MainApp = ({ signOut, user, jwtToken }) => {
   const { currentUser, setCurrentUser } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [resetSubmit, setResetSubmit] = useState(false);
   const questionRef = useRef(null);
   const [isNavigating, setIsNavigating] = useState(false);
 
@@ -73,6 +74,7 @@ const MainApp = ({ signOut, user, jwtToken }) => {
 
   const handleNextQuestion = () => {
     setIsNavigating(true);
+    setResetSubmit(true);
     setCurrentQuestionIndex((prevIndex) => 
       prevIndex < questions.length - 1 ? prevIndex + 1 : prevIndex
     );
@@ -80,6 +82,7 @@ const MainApp = ({ signOut, user, jwtToken }) => {
 
   const handlePreviousQuestion = () => {
     setIsNavigating(true);
+    setResetSubmit(true);
     setCurrentQuestionIndex((prevIndex) => 
       prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
@@ -94,6 +97,7 @@ const MainApp = ({ signOut, user, jwtToken }) => {
           block: 'start'
         });
         setIsNavigating(false);
+        setResetSubmit(false);
       }, 100); // Adjust delay as needed
 
       return () => clearTimeout(timer); // Cleanup timer on unmount
