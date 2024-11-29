@@ -124,7 +124,7 @@ const MainApp = ({ signOut, user, jwtToken }) => {
         isLast={currentQuestionIndex === questions.length - 1}
       />
       <div className="main-app-content" ref={questionRef}>
-        <Question question={questions[currentQuestionIndex]} resetSubmit={resetSubmit} />
+        <Question question={questions[currentQuestionIndex]} />
       </div>
       <NavigationButtons
         className="bottom-nav"
